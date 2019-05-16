@@ -125,7 +125,7 @@ public class QQPermission {
 
                         for (PermissionGroupInfo groupInfo : groupInfos) {
                             CharSequence d = groupInfo.loadDescription(pm);
-                            if (!text.toString().contains(d)) {
+                            if (d != null && !text.toString().contains(d)) {
                                 text.append("\n" + "-").append(d);
                             }
                         }

@@ -35,10 +35,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 publish {
-    userOrg = 'gengqiquan'//bintray.com用户名
-    groupId = 'com.gengqiquan'//jcenter上的路径
+    userOrg = 'adrianzuo'//bintray.com用户名
+    groupId = 'com.che300'//jcenter上的路径
     artifactId = 'QQPermission'//项目名称
     publishVersion = '0.0.11'//版本号
     desc = 'android permission aoto manager'//描述，不重要
-    website = 'https://github.com/gengqiquan/QQPermission'
+    website = 'https://github.com/car300/QQPermission'
 }
