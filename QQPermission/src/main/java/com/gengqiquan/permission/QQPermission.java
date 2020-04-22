@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.util.ArraySet;
 import android.view.View;
 import android.widget.Toast;
@@ -144,7 +145,7 @@ public class QQPermission {
             boolean need = false;
             againList.clear();
             for (int i = 0, l = permissions.length; i < l; i++) {
-                int p = ContextCompat.checkSelfPermission(activity, permissions[i]);
+                int p = PermissionChecker.checkSelfPermission(activity, permissions[i]);
                 if (p != PackageManager.PERMISSION_GRANTED) {
                     need = true;
                 }
