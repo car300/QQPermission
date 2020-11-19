@@ -54,7 +54,7 @@ public class QQPermission {
         TipsProxy tipsProxy;
         boolean showTips = true;
         boolean silence = false;
-        String tipsFormat = "当前功能需要您允许：{0}\n请前往手机的\"设置-应用信息-权限\"中开启权限\n否则您将无法使用该功能";
+        String tipsFormat = "当前功能需要您允许：{0}";
         Request request;
 
         private Builder(Activity t, String[] p) {

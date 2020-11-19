@@ -2,12 +2,15 @@ package com.gengqiquan.permission;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +29,9 @@ class DialogBuilder {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mLayout = inflater.inflate(R.layout.qq_permission_dialog_layout_qqg, null);
+        mLayout = inflater.inflate(R.layout.new_permission_dialog_layout, null);
+        String hint = "请前往手机的<font color='#333333'><strong>“设置-应用信息-权限”</strong></font>中开启权限否则您将无法使用该功能";
+        ((TextView)mLayout.findViewById(R.id.tv_hint_message)).setText(Html.fromHtml(hint));
 
 
     }
@@ -81,7 +86,7 @@ class DialogBuilder {
     }
 
     public DialogBuilder setCancelOnClickListener(View.OnClickListener listener) {
-        ((TextView) mLayout.findViewById(R.id.tv_cancel)).setOnClickListener(listener);
+        ((ImageView) mLayout.findViewById(R.id.iv_close_dialog)).setOnClickListener(listener);
         return this;
     }
 
@@ -129,14 +134,23 @@ class DialogBuilder {
 
     public DialogBuilder showSure() {
         ((TextView) mLayout.findViewById(R.id.tv_apply)).setVisibility(View.GONE);
-        ((TextView) mLayout.findViewById(R.id.tv_setting)).setVisibility(View.VISIBLE);
-        ((TextView) mLayout.findViewById(R.id.tv_sure)).setVisibility(View.VISIBLE);
+        TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
+        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
+        tvSettings.setTextColor(Color.parseColor("#2A8CFF"));
+        tvSettings.setVisibility(View.VISIBLE);
+
+        TextView tvSure = mLayout.findViewById(R.id.tv_sure);
+        tvSure.setVisibility(View.VISIBLE);
+
         return this;
     }
 
     public DialogBuilder showSetting() {
         ((TextView) mLayout.findViewById(R.id.tv_apply)).setVisibility(View.GONE);
-        ((TextView) mLayout.findViewById(R.id.tv_setting)).setVisibility(View.VISIBLE);
+        TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
+        tvSettings.setVisibility(View.VISIBLE);
+        tvSettings.setTextColor(Color.WHITE);
+        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings);
         ((TextView) mLayout.findViewById(R.id.tv_sure)).setVisibility(View.GONE);
         return this;
     }
