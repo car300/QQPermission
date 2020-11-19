@@ -54,7 +54,7 @@ public class QQPermission {
         TipsProxy tipsProxy;
         boolean showTips = true;
         boolean silence = false;
-        String tipsFormat = "当前功能需要您允许：{0}";
+        String tipsFormat = "当前功能需要您允许：{0}\n请前往手机的\"设置-应用信息-权限\"中开启权限\n否则您将无法使用该功能";
         Request request;
 
         private Builder(Activity t, String[] p) {
@@ -231,7 +231,7 @@ public class QQPermission {
                     if (again) {//勾选了不再提示，直接显示设置界面
                         dialogBuilder.showSetting();
                     } else {
-//                        dialogBuilder.showApply();
+                        dialogBuilder.showApply();
                     }
                     dialog.show();
                 }
@@ -274,6 +274,30 @@ public class QQPermission {
 
         void createDialog() {
             dialogBuilder = new DialogBuilder(activity)
+                    .setApplyOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            requestPermissions(result);
+                        }
+                    })
+                    .setSureOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Map<String, Boolean> map = new LinkedHashMap<>();
+                            for (int i = 0, l = permissions.length; i < l; i++) {
+                                int p = ContextCompat.checkSelfPermission(activity, permissions[i]);
+                                map.put(permissions[i], p == PackageManager.PERMISSION_GRANTED);
+                            }
+                            if (!map.containsValue(false)) {
+                                dialog.dismiss();
+                                result.permit();
+                                return;
+                            }
+                            changeMessage(map);
+                            dialogBuilder.shake();
+                        }
+                    })
                     .setCancelOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -288,7 +312,12 @@ public class QQPermission {
                                 Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                                 intent.setData(uri);
                                 activity.startActivity(intent);
-                                dialog.dismiss();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogBuilder.showSure();
+                                    }
+                                }, 1000);
                             } catch (Exception e) {
                                 Toast.makeText(activity, "找不到设置页，请手动进入界面", Toast.LENGTH_SHORT).show();
                             }
