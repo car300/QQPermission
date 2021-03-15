@@ -13,12 +13,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
-import android.support.v4.util.ArraySet;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.collection.ArraySet;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -149,12 +150,14 @@ public class QQPermission {
                 if (p != PackageManager.PERMISSION_GRANTED) {
                     need = true;
                 }
+                // 只有在申请了该权限但用户拒绝了返回true 其他均为false
                 boolean again = ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i]);
                 if (!again) {
                     againList.add(permissions[i]);
                 }
             }
-            if (!need) {//全部允许了
+            //申请的权限全部允许了,走permit
+            if (!need) {
                 result.permit();
                 return;
             }
@@ -195,7 +198,8 @@ public class QQPermission {
 
             boolean showUI = false;
             for (String ps : refuseList) {
-                //again：false 为首次申请或者被拒绝且勾选了不再提示（系统申请弹框）
+                // note 2020-12-29: 只有在申请了该权限但用户拒绝了返回true 其他均为false
+                //again：false 1.为首次申请 2.被拒绝且勾选了不再提示（系统申请弹框） 3.已经允许了该权限
                 boolean again = ActivityCompat.shouldShowRequestPermissionRationale(activity, ps);
 
                 showUI = applyTimes(activity, ps) > 1 && againList.contains(ps) && !again;

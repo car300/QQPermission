@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
