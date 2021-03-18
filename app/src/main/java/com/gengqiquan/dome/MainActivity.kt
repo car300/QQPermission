@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         tv_button.setOnClickListener {
             com.gengqiquan.permission.QQPermission.with(this,
 //                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
             )
                     .requestPermissions({
                         //                        tv_text.text = "权限已允许"

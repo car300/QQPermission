@@ -1,6 +1,9 @@
 package com.gengqiquan.permission;
 
-import android.content.pm.PermissionGroupInfo;
+import android.content.pm.PermissionInfo;
+import android.text.SpannableStringBuilder;
+
+import com.gengqiquan.utils.SpanUtil;
 
 import java.util.Set;
 
@@ -9,5 +12,12 @@ import java.util.Set;
  */
 
 public interface TipsProxy {
-    String makeText(Set<PermissionGroupInfo> groupInfos);
+    /**
+     * 权限组功能高版本没用了，针对每个权限进行更精细化处理
+     *
+     * @param infos
+     * @param builder
+     * @return
+     */
+    SpanUtil.SpanBuilder makeTrueText(Set<PermissionInfo> infos, SpanUtil.SpanBuilder builder);
 }

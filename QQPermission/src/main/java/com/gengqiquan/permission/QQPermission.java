@@ -7,12 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,8 +22,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
-import java.text.MessageFormat;
+import com.gengqiquan.permission.permission_data.PermissionHandler;
+import com.gengqiquan.utils.SpanUtil;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +59,6 @@ public class QQPermission {
         TipsProxy tipsProxy;
         boolean showTips = true;
         boolean silence = false;
-        String tipsFormat = "当前功能需要您允许：{0}";
         Request request;
 
         private Builder(Activity t, String[] p) {
@@ -65,12 +68,13 @@ public class QQPermission {
         }
 
         /**
-         * 弹框文案显示代理
+         * 弹框文案显示代理-"不对外提供了"
          *
          * @author gengqiquan
          * @date 2018/10/18 下午4:32
          */
-        public Builder tipsProxy(TipsProxy tipsProxy) {
+        @Deprecated()
+        private Builder tipsProxy(TipsProxy tipsProxy) {
             this.tipsProxy = tipsProxy;
             return this;
         }
@@ -119,19 +123,18 @@ public class QQPermission {
             result = r;
             if (tipsProxy == null) {
                 tipsProxy = new TipsProxy() {
+
                     @Override
-                    public String makeText(Set<PermissionGroupInfo> groupInfos) {
-
-                        PackageManager pm = activity.getPackageManager();
-                        StringBuilder text = new StringBuilder();
-
-                        for (PermissionGroupInfo groupInfo : groupInfos) {
-                            CharSequence d = groupInfo.loadDescription(pm);
-                            if (d != null && !text.toString().contains(d)) {
-                                text.append("\n" + "-").append(d);
+                    public SpanUtil.SpanBuilder makeTrueText(Set<PermissionInfo> infos, SpanUtil.SpanBuilder builder) {
+                        Iterator<PermissionInfo> iterator = infos.iterator();
+                        while (iterator.hasNext()) {
+                            String desc = PermissionHandler.getPermissionDescription(iterator.next().name);
+                            builder.addStyleSection(desc, Typeface.BOLD);
+                            if (iterator.hasNext()) {
+                                builder.addSection("、");
                             }
                         }
-                        return MessageFormat.format(tipsFormat, text.toString());
+                        return builder;
                     }
                 };
             }
@@ -255,7 +258,7 @@ public class QQPermission {
                 refuseList.clear();
             }
             PackageManager pm = activity.getPackageManager();
-            Set<PermissionGroupInfo> groupInfos = new ArraySet<>();
+            Set<PermissionInfo> permissionInfoSet = new ArraySet<>();
 
             for (Map.Entry<String, Boolean> entry : map.entrySet()) {
                 String key = entry.getKey();
@@ -264,14 +267,18 @@ public class QQPermission {
                     refuseList.add(key);
                     try {
                         PermissionInfo n = pm.getPermissionInfo(key, 0);
-                        PermissionGroupInfo g = pm.getPermissionGroupInfo(n.group, 0);
-                        groupInfos.add(g);
+                        permissionInfoSet.add(n);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
             }
-            dialogBuilder.message(tipsProxy.makeText(groupInfos));
+
+            SpanUtil.SpanBuilder spanBuilder = SpanUtil.create();
+            spanBuilder.addSection("请前往手机的“设置-应用信息-权限”去开启");
+            tipsProxy.makeTrueText(permissionInfoSet, spanBuilder);
+            spanBuilder.addSection("，否则您将无法使用该功能。");
+            dialogBuilder.message(spanBuilder.getSpanStrBuilder());
         }
 
         DialogBuilder dialogBuilder;

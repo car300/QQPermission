@@ -25,25 +25,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:includeFontPadding="false"
-            android:lineSpacingMultiplier="1.2"
-            android:textColor="#666666"
-            android:textSize="15sp" />
-
-        <TextView
             android:id="@+id/tv_hint_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:textColor="#666666"
             android:layout_marginEnd="25dp"
             android:includeFontPadding="false"
             android:lineSpacingMultiplier="1.2"
+            android:textColor="#333333"
             android:textSize="15sp" />
 
         <LinearLayout
