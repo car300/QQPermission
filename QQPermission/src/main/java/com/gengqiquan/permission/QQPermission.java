@@ -26,11 +26,13 @@ import com.gengqiquan.permission.permission_data.PermissionHandler;
 import com.gengqiquan.utils.SpanUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by gengqiquan on 2018/10/10.
@@ -258,7 +260,12 @@ public class QQPermission {
                 refuseList.clear();
             }
             PackageManager pm = activity.getPackageManager();
-            Set<PermissionInfo> permissionInfoSet = new ArraySet<>();
+            Set<PermissionInfo> permissionInfoSet = new TreeSet<>(new Comparator<PermissionInfo>() {
+                @Override
+                public int compare(PermissionInfo o1, PermissionInfo o2) {
+                    return o1.name.equals(o2.name) ? 0 : -1;
+                }
+            });
 
             for (Map.Entry<String, Boolean> entry : map.entrySet()) {
                 String key = entry.getKey();
