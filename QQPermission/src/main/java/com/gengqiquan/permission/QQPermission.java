@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Created by gengqiquan on 2018/10/10.
@@ -129,15 +130,15 @@ public class QQPermission {
                     @Override
                     public SpanUtil.SpanBuilder makeTrueText(Set<PermissionInfo> infos, SpanUtil.SpanBuilder builder) {
                         Iterator<PermissionInfo> iterator = infos.iterator();
+                        ArrayList<String> list = new ArrayList<>();
                         while (iterator.hasNext()) {
                             String desc = PermissionHandler.getPermissionDescription(iterator.next().name);
-                            if (!builder.toString().contains(desc)) { // 防止重复
-                                builder.addStyleSection(desc, Typeface.BOLD);
-                            }
-                            if (iterator.hasNext()) {
-                                builder.addSection("、");
+                            if (!list.contains(desc)) {
+                                list.add(desc);
                             }
                         }
+                        String message = list.stream().collect(Collectors.joining("、"));
+                        builder.addStyleSection(message, Typeface.BOLD);
                         return builder;
                     }
                 };
