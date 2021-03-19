@@ -131,7 +131,9 @@ public class QQPermission {
                         Iterator<PermissionInfo> iterator = infos.iterator();
                         while (iterator.hasNext()) {
                             String desc = PermissionHandler.getPermissionDescription(iterator.next().name);
-                            builder.addStyleSection(desc, Typeface.BOLD);
+                            if (!builder.toString().contains(desc)) { // 防止重复
+                                builder.addStyleSection(desc, Typeface.BOLD);
+                            }
                             if (iterator.hasNext()) {
                                 builder.addSection("、");
                             }
