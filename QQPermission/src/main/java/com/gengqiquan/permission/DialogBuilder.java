@@ -7,6 +7,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -23,16 +24,33 @@ class DialogBuilder {
     private View mLayout;
     private boolean mCancelable = false;
     Dialog dialog;
+    private boolean isPro = true;
 
     public DialogBuilder(Context context) {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayout = inflater.inflate(R.layout.new_permission_dialog_layout, null);
-        String hint = "请前往手机的<font color='#333333'><strong>“设置-应用信息-权限”</strong></font>中开启权限否则您将无法使用该功能";
-        ((TextView)mLayout.findViewById(R.id.tv_hint_message)).setText(Html.fromHtml(hint));
+        initColor(context);
 
+    }
 
+    private void initColor(Context context) {
+        String pn = context.getPackageName();
+        TextView tvApply = mLayout.findViewById(R.id.tv_apply);
+        TextView tvSetting = mLayout.findViewById(R.id.tv_setting);
+        TextView tvSure = mLayout.findViewById(R.id.tv_sure);
+        if (pn.equals("com.che300.price")) { // 专业版
+            isPro = true;
+            tvApply.setBackgroundResource(R.drawable.bg_btn_settings);
+            tvSetting.setBackgroundResource(R.drawable.bg_btn_settings);
+            tvSure.setBackgroundResource(R.drawable.bg_btn_settings);
+        } else { // 个人版or默认
+            isPro = false;
+            tvApply.setBackgroundResource(R.drawable.bg_btn_settings_2c);
+            tvSetting.setBackgroundResource(R.drawable.bg_btn_settings_2c);
+            tvSure.setBackgroundResource(R.drawable.bg_btn_settings_2c);
+        }
     }
 
     public DialogBuilder setSureOnClickListener(View.OnClickListener listener) {
@@ -70,8 +88,13 @@ class DialogBuilder {
     public DialogBuilder showSure() {
         ((TextView) mLayout.findViewById(R.id.tv_apply)).setVisibility(View.GONE);
         TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
-        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
-        tvSettings.setTextColor(Color.parseColor("#2A8CFF"));
+        if (isPro) {
+            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
+            tvSettings.setTextColor(Color.parseColor("#2A8CFF"));
+        } else {
+            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke_2c);
+            tvSettings.setTextColor(Color.parseColor("#FF6600"));
+        }
         tvSettings.setVisibility(View.VISIBLE);
 
         TextView tvSure = mLayout.findViewById(R.id.tv_sure);
@@ -85,7 +108,11 @@ class DialogBuilder {
         TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
         tvSettings.setVisibility(View.VISIBLE);
         tvSettings.setTextColor(Color.WHITE);
-        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings);
+        if (isPro) {
+            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings);
+        }else  {
+            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_2c);
+        }
         ((TextView) mLayout.findViewById(R.id.tv_sure)).setVisibility(View.GONE);
         return this;
     }
