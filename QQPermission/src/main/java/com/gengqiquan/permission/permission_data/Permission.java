@@ -39,8 +39,10 @@ public class Permission {
 
         public static final String[] MICROPHONE = new String[]{Permission.RECORD_AUDIO};
 
-        public static final String[] PHONE = new String[]{Permission.READ_PHONE_STATE, Permission.CALL_PHONE,
+        public static final String[] PHONE = new String[]{Permission.READ_PHONE_STATE,
                 Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS};
+
+        public static final String[] CALL_PHONE = new String[] {Permission.CALL_PHONE};
 
         public static final String[] STORAGE = new String[]{Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE};
     }
