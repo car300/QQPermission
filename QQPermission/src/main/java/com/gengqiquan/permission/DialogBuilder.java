@@ -24,7 +24,6 @@ class DialogBuilder {
     private View mLayout;
     private boolean mCancelable = false;
     Dialog dialog;
-    private boolean isPro = true;
 
     public DialogBuilder(Context context) {
         this.context = context;
@@ -40,17 +39,9 @@ class DialogBuilder {
         TextView tvApply = mLayout.findViewById(R.id.tv_apply);
         TextView tvSetting = mLayout.findViewById(R.id.tv_setting);
         TextView tvSure = mLayout.findViewById(R.id.tv_sure);
-        if (pn.equals("com.che300.price")) { // 专业版
-            isPro = true;
-            tvApply.setBackgroundResource(R.drawable.bg_btn_settings);
-            tvSetting.setBackgroundResource(R.drawable.bg_btn_settings);
-            tvSure.setBackgroundResource(R.drawable.bg_btn_settings);
-        } else { // 个人版or默认
-            isPro = false;
-            tvApply.setBackgroundResource(R.drawable.bg_btn_settings_2c);
-            tvSetting.setBackgroundResource(R.drawable.bg_btn_settings_2c);
-            tvSure.setBackgroundResource(R.drawable.bg_btn_settings_2c);
-        }
+        tvApply.setBackgroundResource(R.drawable.bg_btn_settings);
+        tvSetting.setBackgroundResource(R.drawable.bg_btn_settings);
+        tvSure.setBackgroundResource(R.drawable.bg_btn_settings);
     }
 
     public DialogBuilder setSureOnClickListener(View.OnClickListener listener) {
@@ -88,13 +79,8 @@ class DialogBuilder {
     public DialogBuilder showSure() {
         ((TextView) mLayout.findViewById(R.id.tv_apply)).setVisibility(View.GONE);
         TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
-        if (isPro) {
-            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
-            tvSettings.setTextColor(Color.parseColor("#2A8CFF"));
-        } else {
-            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke_2c);
-            tvSettings.setTextColor(Color.parseColor("#FF6600"));
-        }
+        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
+        tvSettings.setTextColor(tvSettings.getContext().getResources().getColor(R.color.colorPrimary));
         tvSettings.setVisibility(View.VISIBLE);
 
         TextView tvSure = mLayout.findViewById(R.id.tv_sure);
@@ -108,11 +94,7 @@ class DialogBuilder {
         TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
         tvSettings.setVisibility(View.VISIBLE);
         tvSettings.setTextColor(Color.WHITE);
-        if (isPro) {
-            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings);
-        }else  {
-            tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_2c);
-        }
+        tvSettings.setBackgroundResource(R.drawable.bg_btn_settings);
         ((TextView) mLayout.findViewById(R.id.tv_sure)).setVisibility(View.GONE);
         return this;
     }
