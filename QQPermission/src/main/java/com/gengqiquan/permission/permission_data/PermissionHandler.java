@@ -40,6 +40,8 @@ public class PermissionHandler {
         insert2Map(Permission.Group.CONTACTS, Constant.DESC_CONTACT);
         // 设备信息
         insert2Map(Permission.Group.PHONE, Constant.DESC_PHONE);
+        // 拨打电话
+        insert2Map(Permission.Group.CALL_PHONE, Constant.DESC_CALL_PHONE);
 
     }
 
