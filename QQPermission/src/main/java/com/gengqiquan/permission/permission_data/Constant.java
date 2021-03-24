@@ -12,6 +12,5 @@ class Constant {
     public static final String DESC_MICROPHONE = "麦克风权限";
     public static final String DESC_STORAGE = "存储权限";
     public static final String DESC_CONTACT = "联系人权限";
-    public static final String DESC_PHONE = "设备信息权限";
-    public static final String DESC_CALL_PHONE = "拨打电话权限";
+    public static final String DESC_PHONE = "电话权限";
 }
