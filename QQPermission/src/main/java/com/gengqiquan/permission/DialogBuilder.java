@@ -80,7 +80,7 @@ class DialogBuilder {
         ((TextView) mLayout.findViewById(R.id.tv_apply)).setVisibility(View.GONE);
         TextView tvSettings = mLayout.findViewById(R.id.tv_setting);
         tvSettings.setBackgroundResource(R.drawable.bg_btn_settings_stroke);
-        tvSettings.setTextColor(tvSettings.getContext().getResources().getColor(R.color.colorPrimary));
+        tvSettings.setTextColor(tvSettings.getContext().getResources().getColor(R.color.color_permission_lib));
         tvSettings.setVisibility(View.VISIBLE);
 
         TextView tvSure = mLayout.findViewById(R.id.tv_sure);

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2A8CFF</color>
+    <color name="color_permission_lib">#2A8CFF</color>
 </resources>
