@@ -13,11 +13,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
-import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.collection.ArraySet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
@@ -33,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
  * Created by gengqiquan on 2018/10/10.
@@ -121,7 +119,6 @@ public class QQPermission {
             requestPermissions(r, true);
         }
 
-        @SuppressLint("NewApi")
         private void requestPermissions(final IResult r, boolean first) {
             result = r;
             if (tipsProxy == null) {
@@ -137,7 +134,7 @@ public class QQPermission {
                                 list.add(desc);
                             }
                         }
-                        String message = list.stream().collect(Collectors.joining("、"));
+                        String message = TextUtils.join("、", list);
                         builder.addStyleSection(message, Typeface.BOLD);
                         return builder;
                     }
